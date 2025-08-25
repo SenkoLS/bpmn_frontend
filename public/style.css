@@ -6,7 +6,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif; /* чуть современнее */
 }
 #app {
   display: grid;
@@ -25,9 +25,12 @@ header {
 }
 header .logo {
   font-weight: bold;
+  font-size: 16px;
+  letter-spacing: 0.5px;
 }
 header .account {
   cursor: pointer;
+  font-size: 14px;
 }
 
 /* --- footer --- */
@@ -52,6 +55,7 @@ nav {
   color: #ecf0f1;
   transition: width 0.3s;
   overflow: hidden;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
 }
 nav.collapsed {
   width: 60px;
@@ -66,7 +70,8 @@ nav li {
   display: flex;
   align-items: center;
   cursor: pointer;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.2s ease;
 }
 nav li:hover {
   background: #3d566e;
@@ -87,6 +92,7 @@ nav.collapsed li span {
   width: 100%;
   cursor: pointer;
   text-align: left;
+  font-size: 18px;
 }
 
 /* --- content --- */
@@ -97,20 +103,45 @@ nav.collapsed li span {
   background: #f9f9f9;
 }
 
+/* --- toolbar (кнопки) --- */
 #buttons {
-  height: 40px;
-  padding: 5px;
-  background: #f4f4f4;
-  border-bottom: 1px solid #ccc;
+  height: 50px;
+  padding: 8px 12px;
+  background: #f4f6f8;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
 }
 #buttons button {
-  margin-right: 10px;
-  padding: 5px 10px;
+  margin-right: 12px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #2c3e50;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+#buttons button:hover {
+  background: #3d566e;
+}
+#buttons button:active {
+  transform: scale(0.97);
+}
+#buttons button:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
 }
 
+/* --- canvas --- */
 #canvas {
   flex: 1;
   border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
 }
 
 /* --- modal --- */
@@ -124,17 +155,20 @@ nav.collapsed li span {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
 }
-
 .modal-content {
   background-color: #fff;
   margin: 10% auto;
   padding: 20px;
-  border-radius: 6px;
+  border-radius: 8px;
   width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-
 #modal-close {
   float: right;
   cursor: pointer;
   font-size: 20px;
+  color: #999;
+}
+#modal-close:hover {
+  color: #333;
 }

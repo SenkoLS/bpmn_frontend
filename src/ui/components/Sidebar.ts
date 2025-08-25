@@ -5,6 +5,7 @@ import {
   destroyModeler,
 } from "@services/bpmnService";
 import { initModelsList } from "@ui/modelsList";
+import { Toolbar } from "@ui/components/Toolbar";
 
 const emptyDiagram = `<?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -22,7 +23,11 @@ const emptyDiagram = `<?xml version="1.0" encoding="UTF-8"?>
 
 export class Sidebar {
   private element: HTMLElement | null = null;
-  private btnSave: HTMLButtonElement | null = null;
+  private toolbar: Toolbar; // 👈 ссылка на тулбар
+
+  constructor(toolbar: Toolbar) {
+    this.toolbar = toolbar;
+  }
 
   render(container: HTMLElement) {
     container.insertAdjacentHTML(
@@ -40,8 +45,6 @@ export class Sidebar {
     );
 
     this.element = document.getElementById("sidebar");
-    this.btnSave = document.getElementById("save-db") as HTMLButtonElement;
-
     this.initEvents();
   }
 
@@ -57,7 +60,7 @@ export class Sidebar {
     document.getElementById("menu-create")?.addEventListener("click", () => {
       setState({ currentProcessId: null });
       this.loadBpmnEditor(emptyDiagram);
-      if (this.btnSave) this.btnSave.disabled = false;
+      this.toolbar.enableSave(); // 👈 включаем кнопку "Сохранить"
     });
 
     // "Все модели"
@@ -73,7 +76,7 @@ export class Sidebar {
           '<div style="padding:20px;font-size:16px;">Здесь корзина 🗑</div>';
       }
       destroyModeler();
-      if (this.btnSave) this.btnSave.disabled = true;
+      this.toolbar.disableSave(); // 👈 выключаем кнопку
     });
   }
 

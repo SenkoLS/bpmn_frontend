@@ -8,48 +8,12 @@ import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 // --- компоненты UI ---
 import { SaveProcessModal } from "@app/ui/components/SaveProcessModal";
 import { Sidebar } from "@app/ui/components/Sidebar";
+import { Toolbar } from "@ui/components/Toolbar";
+import { Header } from "@ui/components/header";
 
 // --- сервисы ---
 import { initModelsList } from "@ui/modelsList";
 import { saveXml, saveSvg } from "@services/bpmnService";
-
-// кнопка "Сохранить" по умолчанию выключена
-const btnSave = document.getElementById("save-db") as HTMLButtonElement;
-if (btnSave) btnSave.disabled = true;
-
-// --- функции экспорта ---
-async function saveAsXML(): Promise<void> {
-  try {
-    const xml = await saveXml();
-    downloadFile(xml, "diagram.bpmn", "application/xml");
-  } catch (err) {
-    console.error("Ошибка экспорта XML:", err);
-  }
-}
-
-async function saveAsSVG(): Promise<void> {
-  try {
-    const svg = await saveSvg();
-    downloadFile(svg, "diagram.svg", "image/svg+xml");
-  } catch (err) {
-    console.error("Ошибка экспорта SVG:", err);
-  }
-}
-
-// --- утилита для скачивания файла ---
-function downloadFile(data: string, filename: string, type: string): void {
-  const blob = new Blob([data], { type });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-
-  URL.revokeObjectURL(url);
-}
 
 // при старте – пустой экран
 const startCanvas = document.getElementById("canvas") as HTMLDivElement | null;
@@ -61,15 +25,14 @@ if (startCanvas) {
 // --- инициализация UI ---
 initModelsList();
 
-const sidebar = new Sidebar();
-sidebar.render(document.querySelector("main")!);
+const header = new Header();
+header.render(document.getElementById("app")!);
 
 const saveModal = new SaveProcessModal();
 saveModal.render(document.body);
 
-// --- кнопки сохранения --- //
-document.getElementById("save-xml")?.addEventListener("click", saveAsXML);
-document.getElementById("save-svg")?.addEventListener("click", saveAsSVG);
-document.getElementById("save-db")?.addEventListener("click", () => {
-  saveModal.show();
-});
+const toolbar = new Toolbar(saveModal);
+toolbar.render(document.getElementById("content")!);
+
+const sidebar = new Sidebar(toolbar);
+sidebar.render(document.querySelector("main")!);
