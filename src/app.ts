@@ -10,6 +10,7 @@ import { SaveProcessModal } from "@app/ui/components/SaveProcessModal";
 import { Sidebar } from "@app/ui/components/Sidebar";
 import { Toolbar } from "@ui/components/Toolbar";
 import { Header } from "@ui/components/header";
+import { Footer } from "@ui/components/Footer";
 
 // --- сервисы ---
 import { initModelsList } from "@ui/modelsList";
@@ -36,3 +37,6 @@ toolbar.render(document.getElementById("content")!);
 
 const sidebar = new Sidebar(toolbar);
 sidebar.render(document.querySelector("main")!);
+
+const footer = new Footer();
+footer.render(document.getElementById("app")!);
