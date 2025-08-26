@@ -11,17 +11,10 @@ import { Sidebar } from "@app/ui/components/Sidebar";
 import { Toolbar } from "@ui/components/Toolbar";
 import { Header } from "@ui/components/header";
 import { Footer } from "@ui/components/Footer";
+import { Canvas } from "@ui/components/Canvas";
 
 // --- сервисы ---
 import { initModelsList } from "@ui/modelsList";
-import { saveXml, saveSvg } from "@services/bpmnService";
-
-// при старте – пустой экран
-const startCanvas = document.getElementById("canvas") as HTMLDivElement | null;
-if (startCanvas) {
-  startCanvas.innerHTML =
-    '<div style="padding:20px;font-size:16px;">Выберите пункт меню слева</div>';
-}
 
 // --- инициализация UI ---
 initModelsList();
@@ -37,6 +30,9 @@ toolbar.render(document.getElementById("content")!);
 
 const sidebar = new Sidebar(toolbar);
 sidebar.render(document.querySelector("main")!);
+
+const canvas = new Canvas();
+canvas.render(document.getElementById("content")!);
 
 const footer = new Footer();
 footer.render(document.getElementById("app")!);
