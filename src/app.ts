@@ -6,18 +6,12 @@ import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 
 // --- компоненты UI ---
-import { SaveProcessModal } from "@app/ui/components/SaveProcessModal";
-import { Sidebar } from "@app/ui/components/Sidebar";
-import { Toolbar } from "@ui/components/Toolbar";
+import { SaveProcessModal } from "@ui/components/SaveProcessModal";
+import { Sidebar } from "@ui/components/Sidebar";
+import { AppToolbar } from "@ui/components/AppToolbar";
 import { Header } from "@ui/components/header";
 import { Footer } from "@ui/components/Footer";
 import { Canvas } from "@ui/components/Canvas";
-
-// --- сервисы ---
-import { initModelsList } from "@ui/modelsList";
-
-// --- инициализация UI ---
-initModelsList();
 
 const header = new Header();
 header.render(document.getElementById("app")!);
@@ -25,7 +19,7 @@ header.render(document.getElementById("app")!);
 const saveModal = new SaveProcessModal();
 saveModal.render(document.body);
 
-const toolbar = new Toolbar(saveModal);
+const toolbar = new AppToolbar(saveModal);
 toolbar.render(document.getElementById("content")!);
 
 const sidebar = new Sidebar(toolbar);

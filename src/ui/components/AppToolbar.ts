@@ -1,7 +1,7 @@
 import { SaveProcessModal } from "@ui/components/SaveProcessModal";
 import { saveXml, saveSvg } from "@services/bpmnService";
 
-export class Toolbar {
+export class AppToolbar {
   private element: HTMLElement | null = null;
   private saveModal: SaveProcessModal;
   private btnSave: HTMLButtonElement | null = null;

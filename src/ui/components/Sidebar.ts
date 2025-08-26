@@ -4,8 +4,10 @@ import {
   importXml,
   destroyModeler,
 } from "@services/bpmnService";
-import { initModelsList } from "@ui/modelsList";
-import { Toolbar } from "@ui/components/Toolbar";
+import { ModelsList } from "@ui/components/ModelsList";
+import { getProcesses } from "@api/processes";
+
+import { AppToolbar } from "@ui/components/AppToolbar";
 
 const emptyDiagram = `<?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -23,10 +25,10 @@ const emptyDiagram = `<?xml version="1.0" encoding="UTF-8"?>
 
 export class Sidebar {
   private element: HTMLElement | null = null;
-  private toolbar: Toolbar; // 👈 ссылка на тулбар
+  private appToolbar: AppToolbar;
 
-  constructor(toolbar: Toolbar) {
-    this.toolbar = toolbar;
+  constructor(toolbar: AppToolbar) {
+    this.appToolbar = toolbar;
   }
 
   render(container: HTMLElement) {
@@ -60,12 +62,27 @@ export class Sidebar {
     document.getElementById("menu-create")?.addEventListener("click", () => {
       setState({ currentProcessId: null });
       this.loadBpmnEditor(emptyDiagram);
-      this.toolbar.enableSave(); // 👈 включаем кнопку "Сохранить"
+      this.appToolbar.enableSave(); // 👈 включаем кнопку "Сохранить"
     });
 
     // "Все модели"
-    document.getElementById("menu-all")?.addEventListener("click", () => {
-      initModelsList();
+    document.getElementById("menu-all")?.addEventListener("click", async () => {
+      const canvas = document.getElementById("canvas") as HTMLDivElement | null;
+      if (!canvas) return;
+
+      try {
+        const processes = await getProcesses();
+        const modelsList = new ModelsList(canvas, this.appToolbar);
+        modelsList.render(processes);
+
+        this.appToolbar.disableSave(); // пока ничего не выбрано — сохранять нечего
+      } catch (err) {
+        console.error("Ошибка загрузки процессов:", err);
+        if (canvas) {
+          canvas.innerHTML =
+            '<div style="padding:20px;color:red;">Ошибка загрузки списка процессов</div>';
+        }
+      }
     });
 
     // "Корзина"
@@ -76,7 +93,7 @@ export class Sidebar {
           '<div style="padding:20px;font-size:16px;">Здесь корзина 🗑</div>';
       }
       destroyModeler();
-      this.toolbar.disableSave(); // 👈 выключаем кнопку
+      this.appToolbar.disableSave(); // 👈 выключаем кнопку
     });
   }
 
