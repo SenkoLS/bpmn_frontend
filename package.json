@@ -4,9 +4,12 @@
   "private": true,
   "dependencies": {
     "bpmn-js": "^18.6.3",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "keycloak-js": "^26.2.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/keycloak-js": "^2.5.4",
     "css-loader": "^7.1.2",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.2",
@@ -17,6 +20,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "start": "webpack serve --mode development"
+    "start": "webpack serve --mode development",
+    "test:e2e": "playwright test"
   }
 }

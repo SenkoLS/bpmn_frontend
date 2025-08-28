@@ -13,20 +13,54 @@ import { Header } from "@ui/components/header";
 import { Footer } from "@ui/components/Footer";
 import { Canvas } from "@ui/components/Canvas";
 
-const header = new Header();
-header.render(document.getElementById("app")!);
+import keycloak from "./keycloak";
 
-const saveModal = new SaveProcessModal();
-saveModal.render(document.body);
+// Определяем интерфейс для токена
+interface KeycloakTokenParsed {
+  preferred_username?: string;
+  email?: string;
+  given_name?: string;
+  family_name?: string;
+  realm_access?: { roles: string[] };
+}
 
-const toolbar = new AppToolbar(saveModal);
-toolbar.render(document.getElementById("content")!);
+function startApp() {
+  const header = new Header();
+  header.render(document.getElementById("app")!);
 
-const sidebar = new Sidebar(toolbar);
-sidebar.render(document.querySelector("main")!);
+  const saveModal = new SaveProcessModal();
+  saveModal.render(document.body);
 
-const canvas = new Canvas();
-canvas.render(document.getElementById("content")!);
+  const toolbar = new AppToolbar(saveModal);
+  toolbar.render(document.getElementById("content")!);
 
-const footer = new Footer();
-footer.render(document.getElementById("app")!);
+  const sidebar = new Sidebar(toolbar);
+  sidebar.render(document.querySelector("main")!);
+
+  const canvas = new Canvas();
+  canvas.render(document.getElementById("content")!);
+
+  const footer = new Footer();
+  footer.render(document.getElementById("app")!);
+}
+
+async function initKeycloak() {
+  try {
+    const authenticated = await keycloak.init({
+      onLoad: "login-required",
+    });
+
+    if (authenticated) {
+      const user = keycloak.tokenParsed as KeycloakTokenParsed;
+      console.log("✅ Authenticated as", user?.preferred_username || "unknown");
+      startApp();
+    } else {
+      console.warn("❌ Not authenticated!");
+      keycloak.login();
+    }
+  } catch (err) {
+    console.error("Keycloak init error", err);
+  }
+}
+
+initKeycloak();
