@@ -1,3 +1,5 @@
+import { config } from "@app/config";
+
 export interface ProcessDto {
   id: string;
   name: string;
@@ -5,8 +7,8 @@ export interface ProcessDto {
   xml: string;
 }
 
-const API_URL = "/api"; // универсально: dev → прокси на localhost:4000, prod → /api
-
+const API_URL = `${config.apiUrl}`;
+console.log("-----------------------------", API_URL);
 // Получить список процессов
 export async function getProcesses(): Promise<ProcessDto[]> {
   const res = await fetch(`${API_URL}/processes`);
