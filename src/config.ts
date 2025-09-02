@@ -3,4 +3,5 @@ export const config = {
   keycloakRealm: process.env.KEYCLOAK_REALM!,
   keycloakClientId: process.env.KEYCLOAK_CLIENT_ID!,
   apiUrl: process.env.API_URL!,
+  disableAuth: process.env.DISABLE_AUTH!,
 };

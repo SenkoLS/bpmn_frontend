@@ -1,5 +1,8 @@
+import { createModeler } from "@services/bpmnService";
+
 export class Canvas {
   private element: HTMLDivElement | null = null;
+  private initialized = false;
 
   render(container: HTMLElement) {
     container.insertAdjacentHTML(
@@ -7,6 +10,7 @@ export class Canvas {
       `<div id="canvas" class="canvas"></div>`
     );
     this.element = document.getElementById("canvas") as HTMLDivElement;
+
     this.showPlaceholder();
   }
 

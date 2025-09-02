@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bpmn-js": "^18.6.3",
+    "bpmn-js-properties-panel": "^5.42.0",
     "dotenv": "^17.2.1",
     "express": "^4.21.2",
     "keycloak-js": "^26.2.0"
@@ -24,6 +25,6 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack serve --mode development",
-    "test:e2e": "playwright test"
+    "test:e2e": "DISABLE_AUTH=true playwright test"
   }
 }

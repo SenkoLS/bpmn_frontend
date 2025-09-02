@@ -1,6 +1,7 @@
 import { setState } from "@state/store";
 import {
   createModeler,
+  createModeler1,
   importXml,
   destroyModeler,
 } from "@services/bpmnService";
@@ -62,7 +63,7 @@ export class Sidebar {
     document.getElementById("menu-create")?.addEventListener("click", () => {
       setState({ currentProcessId: null });
       this.loadBpmnEditor(emptyDiagram);
-      this.appToolbar.enableSave(); // 👈 включаем кнопку "Сохранить"
+      this.appToolbar.enableSave();
     });
 
     // "Все модели"
@@ -100,10 +101,8 @@ export class Sidebar {
   private loadBpmnEditor(xml: string): void {
     const canvas = document.getElementById("canvas") as HTMLDivElement | null;
     if (!canvas) return;
-
-    canvas.innerHTML = "";
-
-    createModeler("#canvas");
+    destroyModeler();
+    createModeler("#canvas", "#properties");
     importXml(xml).catch((err) => {
       console.error("Ошибка при загрузке:", err);
     });

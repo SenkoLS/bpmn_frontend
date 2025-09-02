@@ -12,8 +12,11 @@ import { AppToolbar } from "@ui/components/AppToolbar";
 import { Header } from "@ui/components/header";
 import { Footer } from "@ui/components/Footer";
 import { Canvas } from "@ui/components/Canvas";
+//Убираем кастомную панель - идем в сторону стандартной
+//import { PropertiesPanel } from "@ui/components/PropertiesPanel";
 
-import keycloak from "./keycloak";
+import keycloak from "@app/keycloak";
+import { config } from "@app/config";
 
 // Определяем интерфейс для токена
 interface KeycloakTokenParsed {
@@ -40,6 +43,10 @@ function startApp() {
   const canvas = new Canvas();
   canvas.render(document.getElementById("content")!);
 
+  //Стандартная панель должна отрисовать панель свойств для диаграммы, кастомную заглушим
+  //const properties = new PropertiesPanel();
+  //properties.render(document.getElementById("properties")!);
+
   const footer = new Footer();
   footer.render(document.getElementById("app")!);
 }
@@ -64,3 +71,5 @@ async function initKeycloak() {
 }
 
 initKeycloak();
+
+//startApp();

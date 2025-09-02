@@ -1,6 +1,11 @@
 import { getProcess } from "@api/processes";
 import { setState } from "@state/store";
-import { createModeler, importXml } from "@services/bpmnService";
+import {
+  createModeler,
+  createModeler1,
+  destroyModeler,
+  importXml,
+} from "@services/bpmnService";
 import { AppToolbar } from "@ui/components/AppToolbar";
 
 export class ModelsList {
@@ -55,9 +60,8 @@ export class ModelsList {
         const process = await getProcess(id);
 
         setState({ currentProcessId: id });
-
-        this.container.innerHTML = ""; // очищаем
-        createModeler("#canvas");
+        destroyModeler();
+        createModeler("#canvas", "#properties");
         await importXml(process.xml);
 
         this.appToolbar.enableSave();

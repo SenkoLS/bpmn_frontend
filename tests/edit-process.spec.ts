@@ -25,7 +25,7 @@ test.beforeEach(async ({ request }) => {
   });
 
   const body = await response.json();
-  createdProcessId = body.id.id; // уникальный ID
+  createdProcessId = body.id; // уникальный ID
 });
 
 test("Редактирование существующего процесса и сохранение", async ({

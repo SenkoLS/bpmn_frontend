@@ -24,7 +24,8 @@ test.beforeEach(async ({ request }) => {
   });
 
   const body = await response.json();
-  createdProcessId = body.id.id;
+  console.log("--------------", body.id);
+  createdProcessId = body.id;
 });
 
 test("Получение списка процессов во фронте", async ({ page }) => {

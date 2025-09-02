@@ -1,11 +1,15 @@
+import type BpmnModeler from "bpmn-js/lib/Modeler";
+
 type Listener<T> = (state: T) => void;
 
 interface AppState {
   currentProcessId: string | null;
+  modeler: BpmnModeler | null;
 }
 
 const state: AppState = {
   currentProcessId: null,
+  modeler: null,
 };
 
 const listeners: Listener<AppState>[] = [];

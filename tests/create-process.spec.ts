@@ -36,7 +36,7 @@ test("Создание нового процесса и сохранение в 
   // --- Получаем id созданного процесса ---
   const response = await responsePromise;
   const body = await response.json();
-  createdProcessId = body.id.id;
+  createdProcessId = body.id;
 
   // --- Проверка в UI ---
   await page.getByText("Все модели").click();
